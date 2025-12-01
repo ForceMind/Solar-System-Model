@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Hands, Results } from '@mediapipe/hands';
-import { Camera } from '@mediapipe/camera_utils';
 import { useLanguage } from '../contexts/LanguageContext';
+
+// Declare global types for MediaPipe
+declare global {
+  interface Window {
+    Hands: any;
+    Camera: any;
+  }
+}
 
 interface GestureControllerProps {
   onGesture: (type: 'IDLE' | 'PAN' | 'ZOOM', delta: { x: number, y: number, scale: number }) => void;
@@ -21,8 +27,9 @@ export const GestureController: React.FC<GestureControllerProps> = ({ onGesture 
   useEffect(() => {
     if (!videoRef.current) return;
 
-    const hands = new Hands({
-      locateFile: (file) => {
+    // @ts-ignore
+    const hands = new window.Hands({
+      locateFile: (file: string) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
       }
     });
@@ -36,7 +43,8 @@ export const GestureController: React.FC<GestureControllerProps> = ({ onGesture 
 
     hands.onResults(onResults);
 
-    const camera = new Camera(videoRef.current, {
+    // @ts-ignore
+    const camera = new window.Camera(videoRef.current, {
       onFrame: async () => {
         if (videoRef.current) {
           await hands.send({ image: videoRef.current });
@@ -96,7 +104,7 @@ export const GestureController: React.FC<GestureControllerProps> = ({ onGesture 
     return 'OPEN';
   };
 
-  const onResults = (results: Results) => {
+  const onResults = (results: any) => {
     if (!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
       lastHandPos.current = null;
       setGestureState('IDLE');
