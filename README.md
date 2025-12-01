@@ -58,6 +58,31 @@ A 3D interactive Solar System model with gesture controls, real-time NASA data i
 
 The project uses the `DEMO_KEY` for NASA APIs. For production use, get a free API key from [api.nasa.gov](https://api.nasa.gov/) and update `src/services/nasa.ts`.
 
+### Deployment
+
+To deploy this application to a server (e.g., Nginx, Apache) or static hosting (Vercel, Netlify):
+
+1.  **Build the project**:
+    ```bash
+    npm run build
+    ```
+    This will create a `dist` folder containing the static files.
+
+2.  **Upload**: Upload the contents of the `dist` folder to your web server's public directory.
+
+3.  **Nginx Configuration (Example)**:
+    ```nginx
+    server {
+        listen 80;
+        server_name your-domain.com;
+        root /path/to/your/dist;
+        index index.html;
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+    }
+    ```
+
 ---
 
 <a name="chinese"></a>
@@ -115,3 +140,28 @@ The project uses the `DEMO_KEY` for NASA APIs. For production use, get a free AP
 ### NASA API
 
 本项目使用 `DEMO_KEY` 调用 NASA API。如需生产环境使用，请从 [api.nasa.gov](https://api.nasa.gov/) 获取免费 API 密钥并更新 `src/services/nasa.ts`。
+
+### 部署
+
+要将此应用部署到服务器（如 Nginx, Apache）或静态托管服务（Vercel, Netlify）：
+
+1.  **构建项目**：
+    ```bash
+    npm run build
+    ```
+    这将创建一个包含静态文件的 `dist` 文件夹。
+
+2.  **上传**：将 `dist` 文件夹的内容上传到您的 Web 服务器的公共目录。
+
+3.  **Nginx 配置（示例）**：
+    ```nginx
+    server {
+        listen 80;
+        server_name your-domain.com;
+        root /path/to/your/dist;
+        index index.html;
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+    }
+    ```
