@@ -5,6 +5,7 @@ import { Sun } from './Sun';
 import { Planet } from './Planet';
 import { planets, PlanetData } from '../data/planets';
 import { GestureController } from './GestureController';
+import { Constellations } from './Constellations';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -47,6 +48,7 @@ const CameraController = ({
 export const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetSelect }) => {
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const [focusedPlanetPos, setFocusedPlanetPos] = useState<[number, number, number] | null>(null);
+  const [showConstellations, setShowConstellations] = useState(false);
   const { language } = useLanguage();
 
   const handleGesture = (type: 'IDLE' | 'PAN' | 'ZOOM', delta: { x: number, y: number, scale: number }) => {
@@ -55,9 +57,17 @@ export const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetSelect }) => {
     if (type === 'PAN') {
       // Adjust angles
       // Increase sensitivity
-      const sensitivity = 5.0;
-      (controlsRef.current as any).rotateLeft?.(delta.x * sensitivity);
-      (controlsRef.current as any).rotateUp?.(delta.y * sensitivity);
+      const sensitivity = 10.0;
+      
+      // Use setAzimuthalAngle and setPolarAngle for more reliable control if rotateLeft fails
+      // But rotateLeft is standard. Let's try to force update.
+      // Also check if delta is significant.
+      
+      const currentAzimuth = controlsRef.current.getAzimuthalAngle();
+      const currentPolar = controlsRef.current.getPolarAngle();
+      
+      controlsRef.current.setAzimuthalAngle(currentAzimuth + delta.x * sensitivity);
+      controlsRef.current.setPolarAngle(currentPolar + delta.y * sensitivity);
       
       controlsRef.current.update();
     } else if (type === 'ZOOM') {
@@ -84,16 +94,19 @@ export const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetSelect }) => {
       <GestureController onGesture={handleGesture} />
       <Canvas camera={{ position: [0, 50, 100], fov: 45 }}>
         <Suspense fallback={null}>
-          <ambientLight intensity={0.3} />
-          <Stars radius={300} depth={50} count={10000} factor={6} saturation={0} fade speed={1} />
+          <ambientLight intensity={1.2} />
+          <Stars radius={300} depth={50} count={20000} factor={7} saturation={0} fade speed={1} />
+          <Stars radius={100} depth={50} count={5000} factor={10} saturation={1} fade speed={2} />
           
           {/* Background Galaxy/Nebula effect using a large sphere with backside */}
           <mesh>
-             <sphereGeometry args={[400, 64, 64]} />
-             <meshBasicMaterial color="#000010" side={THREE.BackSide} />
+             <sphereGeometry args={[450, 64, 64]} />
+             <meshBasicMaterial color="#050520" side={THREE.BackSide} />
           </mesh>
 
-          <Sun />
+          {showConstellations && <Constellations />}
+
+          <Sun onSelect={onPlanetSelect} />
           <CameraController focusedPosition={focusedPlanetPos} controlsRef={controlsRef} />
           
           {planets.map((planet) => (
@@ -113,6 +126,18 @@ export const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetSelect }) => {
           />
         </Suspense>
       </Canvas>
+
+      {/* Constellation Toggle */}
+      <div className="absolute top-4 right-4 z-50 pointer-events-auto">
+        <button
+            onClick={() => setShowConstellations(!showConstellations)}
+            className={`px-4 py-2 rounded-full border border-hologram-blue backdrop-blur-md font-orbitron text-xs transition-all ${
+                showConstellations ? 'bg-hologram-blue text-black' : 'bg-black/50 text-hologram-blue hover:bg-hologram-blue/20'
+            }`}
+        >
+            {language === 'zh' ? (showConstellations ? '隐藏星座' : '显示星座') : (showConstellations ? 'Hide Constellations' : 'Show Constellations')}
+        </button>
+      </div>
 
       {focusedPlanetPos && (
         <div className="absolute top-24 left-1/2 transform -translate-x-1/2 pointer-events-auto z-50">

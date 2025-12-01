@@ -16,7 +16,7 @@ export const GestureController: React.FC<GestureControllerProps> = ({ onGesture 
   
   const lastHandPos = useRef<{ x: number, y: number } | null>(null);
   const smoothedPos = useRef<{ x: number, y: number }>({ x: 0, y: 0 });
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     if (!videoRef.current) return;
@@ -138,11 +138,12 @@ export const GestureController: React.FC<GestureControllerProps> = ({ onGesture 
     } else if (gesture === 'PINCH') {
         // Pan / Rotate
         if (lastHandPos.current) {
-            const dx = (cx - lastHandPos.current.x) * 3; 
-            const dy = (cy - lastHandPos.current.y) * 3;
+            // Invert X for natural feel (drag left to rotate right)
+            const dx = (cx - lastHandPos.current.x) * 5; 
+            const dy = (cy - lastHandPos.current.y) * 5;
             
             // Deadzone to prevent jitter when holding still
-            if (Math.abs(dx) > 0.001 || Math.abs(dy) > 0.001) {
+            if (Math.abs(dx) > 0.0005 || Math.abs(dy) > 0.0005) {
                 onGesture('PAN', { x: dx, y: dy, scale: 0 });
             }
         }
@@ -150,6 +151,18 @@ export const GestureController: React.FC<GestureControllerProps> = ({ onGesture 
     } else {
         lastHandPos.current = null;
     }
+  };
+
+  const getGestureLabel = (gesture: GestureType) => {
+      if (language === 'zh') {
+          switch (gesture) {
+              case 'OPEN': return '放大';
+              case 'FIST': return '缩小';
+              case 'PINCH': return '捏合拖动旋转';
+              default: return '空闲';
+          }
+      }
+      return gesture === 'PINCH' ? 'PINCH & DRAG' : gesture;
   };
 
   return (
@@ -170,7 +183,7 @@ export const GestureController: React.FC<GestureControllerProps> = ({ onGesture 
         {cameraActive && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <span className="text-hologram-blue font-orbitron font-bold text-lg drop-shadow-md bg-black/40 px-2 rounded">
-                    {gestureState}
+                    {getGestureLabel(gestureState)}
                 </span>
             </div>
         )}

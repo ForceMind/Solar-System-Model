@@ -12,6 +12,18 @@ export interface PlanetData {
   moons?: { name: string; radius: number; distance: number; speed: number; color: string }[];
 }
 
+export const sunData: PlanetData = {
+  name: "Sun",
+  nameZh: "太阳",
+  radius: 8,
+  distance: 0,
+  speed: 0,
+  color: "#FFD700",
+  textureUrl: "https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/sunmap.jpg",
+  description: "The star around which the earth orbits. It provides the light and energy that sustains life on earth.",
+  descriptionZh: "地球围绕其运行的恒星。它提供了维持地球生命所需的光和能量。"
+};
+
 export const planets: PlanetData[] = [
   {
     name: "Mercury",
@@ -69,7 +81,13 @@ export const planets: PlanetData[] = [
     color: "#D9A066",
     textureUrl: "https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/jupitermap.jpg",
     description: "Jupiter is more than twice as massive as the other planets of our solar system combined.",
-    descriptionZh: "木星的质量是太阳系其他行星质量总和的两倍多。"
+    descriptionZh: "木星的质量是太阳系其他行星质量总和的两倍多。",
+    moons: [
+      { name: "Io", radius: 0.3, distance: 5.5, speed: 0.04, color: "#F8F7A8" },
+      { name: "Europa", radius: 0.25, distance: 6.5, speed: 0.03, color: "#C6B694" },
+      { name: "Ganymede", radius: 0.4, distance: 7.5, speed: 0.02, color: "#9E968D" },
+      { name: "Callisto", radius: 0.35, distance: 9, speed: 0.01, color: "#6F6A63" }
+    ]
   },
   {
     name: "Saturn",
@@ -81,7 +99,11 @@ export const planets: PlanetData[] = [
     textureUrl: "https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/saturnmap.jpg",
     ringUrl: "https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/saturnringcolor.jpg",
     description: "Adorned with a dazzling, complex system of icy rings.",
-    descriptionZh: "拥有令人眼花缭乱、复杂的冰环系统。"
+    descriptionZh: "拥有令人眼花缭乱、复杂的冰环系统。",
+    moons: [
+      { name: "Titan", radius: 0.35, distance: 6, speed: 0.02, color: "#EAD6B8" },
+      { name: "Rhea", radius: 0.15, distance: 4.5, speed: 0.03, color: "#B0A89E" }
+    ]
   },
   {
     name: "Uranus",
