@@ -92,11 +92,11 @@ export const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetSelect }) => {
   return (
     <>
       <GestureController onGesture={handleGesture} />
-      <Canvas camera={{ position: [0, 50, 100], fov: 45 }}>
+      <Canvas camera={{ position: [0, 50, 100], fov: 45, far: 20000 }}>
         <Suspense fallback={null}>
           <ambientLight intensity={1.2} />
-          <Stars radius={300} depth={50} count={20000} factor={7} saturation={0} fade speed={1} />
-          <Stars radius={100} depth={50} count={5000} factor={10} saturation={1} fade speed={2} />
+          <Stars radius={5000} depth={500} count={20000} factor={7} saturation={0} fade speed={1} />
+          <Stars radius={3000} depth={500} count={5000} factor={10} saturation={1} fade speed={2} />
           
           {/* Background Galaxy/Nebula effect using a large sphere with backside */}
           <mesh>

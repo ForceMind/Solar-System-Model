@@ -1,3 +1,14 @@
+export interface MoonData {
+  name: string;
+  nameZh?: string;
+  radius: number;
+  distance: number;
+  speed: number;
+  color: string;
+  description?: string;
+  descriptionZh?: string;
+}
+
 export interface PlanetData {
   name: string;
   nameZh: string;
@@ -5,11 +16,11 @@ export interface PlanetData {
   distance: number;
   speed: number;
   color: string;
-  textureUrl: string;
+  textureUrl?: string;
   ringUrl?: string;
   description: string;
   descriptionZh: string;
-  moons?: { name: string; radius: number; distance: number; speed: number; color: string }[];
+  moons?: MoonData[];
 }
 
 export const sunData: PlanetData = {
@@ -58,7 +69,16 @@ export const planets: PlanetData[] = [
     description: "Our home planet, the only place we know of so far that's inhabited by living things.",
     descriptionZh: "我们的家园，目前已知唯一有生命存在的地方。",
     moons: [
-      { name: "Moon", radius: 0.4, distance: 3, speed: 0.05, color: "#DDDDDD" }
+      { 
+        name: "Moon", 
+        nameZh: "月球",
+        radius: 0.4, 
+        distance: 3, 
+        speed: 0.05, 
+        color: "#DDDDDD",
+        description: "The only natural satellite of Earth.",
+        descriptionZh: "地球唯一的天然卫星。"
+      }
     ]
   },
   {
@@ -83,10 +103,46 @@ export const planets: PlanetData[] = [
     description: "Jupiter is more than twice as massive as the other planets of our solar system combined.",
     descriptionZh: "木星的质量是太阳系其他行星质量总和的两倍多。",
     moons: [
-      { name: "Io", radius: 0.3, distance: 5.5, speed: 0.04, color: "#F8F7A8" },
-      { name: "Europa", radius: 0.25, distance: 6.5, speed: 0.03, color: "#C6B694" },
-      { name: "Ganymede", radius: 0.4, distance: 7.5, speed: 0.02, color: "#9E968D" },
-      { name: "Callisto", radius: 0.35, distance: 9, speed: 0.01, color: "#6F6A63" }
+      { 
+        name: "Io", 
+        nameZh: "木卫一",
+        radius: 0.3, 
+        distance: 5.5, 
+        speed: 0.04, 
+        color: "#F8F7A8",
+        description: "The most geologically active object in the Solar System.",
+        descriptionZh: "太阳系中地质活动最活跃的天体。"
+      },
+      { 
+        name: "Europa", 
+        nameZh: "木卫二",
+        radius: 0.25, 
+        distance: 6.5, 
+        speed: 0.03, 
+        color: "#C6B694",
+        description: "The smoothest object in the Solar System, likely containing a subsurface ocean.",
+        descriptionZh: "太阳系中最光滑的天体，可能拥有地下海洋。"
+      },
+      { 
+        name: "Ganymede", 
+        nameZh: "木卫三",
+        radius: 0.4, 
+        distance: 7.5, 
+        speed: 0.02, 
+        color: "#9E968D",
+        description: "The largest moon in the Solar System, larger than Mercury.",
+        descriptionZh: "太阳系中最大的卫星，比水星还大。"
+      },
+      { 
+        name: "Callisto", 
+        nameZh: "木卫四",
+        radius: 0.35, 
+        distance: 9, 
+        speed: 0.01, 
+        color: "#6F6A63",
+        description: "The most heavily cratered object in the Solar System.",
+        descriptionZh: "太阳系中陨石坑最多的天体。"
+      }
     ]
   },
   {
@@ -101,8 +157,26 @@ export const planets: PlanetData[] = [
     description: "Adorned with a dazzling, complex system of icy rings.",
     descriptionZh: "拥有令人眼花缭乱、复杂的冰环系统。",
     moons: [
-      { name: "Titan", radius: 0.35, distance: 6, speed: 0.02, color: "#EAD6B8" },
-      { name: "Rhea", radius: 0.15, distance: 4.5, speed: 0.03, color: "#B0A89E" }
+      { 
+        name: "Titan", 
+        nameZh: "土卫六",
+        radius: 0.35, 
+        distance: 6, 
+        speed: 0.02, 
+        color: "#EAD6B8",
+        description: "The only moon known to have a dense atmosphere.",
+        descriptionZh: "已知唯一拥有浓厚大气层的卫星。"
+      },
+      { 
+        name: "Rhea", 
+        nameZh: "土卫五",
+        radius: 0.15, 
+        distance: 4.5, 
+        speed: 0.03, 
+        color: "#B0A89E",
+        description: "The second-largest moon of Saturn.",
+        descriptionZh: "土星的第二大卫星。"
+      }
     ]
   },
   {

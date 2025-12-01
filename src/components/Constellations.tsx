@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Line, Html } from '@react-three/drei';
 import { constellations, getStarPosition } from '../data/constellations';
 import { useLanguage } from '../contexts/LanguageContext';

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Mesh, TextureLoader } from 'three';
+import { Mesh } from 'three';
 import { Html, useTexture } from '@react-three/drei';
 import { PlanetData } from '../data/planets';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -19,13 +19,14 @@ export const Planet: React.FC<PlanetProps> = ({ data, onSelect, onFocus }) => {
   const { speed, isPaused } = useSimulation();
   
   // Load textures
-  const texture = useTexture(data.textureUrl);
+  // We assume planets always have textures, but moons might not.
+  const texture = useTexture(data.textureUrl || 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/earthmap1k.jpg');
   const ringTexture = data.ringUrl ? useTexture(data.ringUrl) : null;
 
   // Random starting angle
   const initialAngle = useRef(Math.random() * Math.PI * 2);
 
-  useFrame(({ clock }, delta) => {
+  useFrame((_, delta) => {
     if (meshRef.current && !isPaused) {
       // Use delta for smoother updates independent of frame rate, but we need accumulated time for orbit
       // Actually, we can just increment rotation based on speed * delta
@@ -87,7 +88,14 @@ export const Planet: React.FC<PlanetProps> = ({ data, onSelect, onFocus }) => {
 
         {/* Moons */}
         {data.moons && data.moons.map((moon, idx) => (
-            <Moon key={idx} data={moon} planetRadius={data.radius} speedMultiplier={speed} isPaused={isPaused} />
+            <Moon 
+              key={idx} 
+              data={moon} 
+              planetRadius={data.radius} 
+              speedMultiplier={speed} 
+              isPaused={isPaused} 
+              onSelect={onSelect}
+            />
         ))}
         
         {/* Label */}
@@ -104,9 +112,23 @@ export const Planet: React.FC<PlanetProps> = ({ data, onSelect, onFocus }) => {
 };
 
 // Sub-component for Moon to handle its own orbit relative to planet
-const Moon = ({ data, planetRadius, speedMultiplier, isPaused }: { data: any, planetRadius: number, speedMultiplier: number, isPaused: boolean }) => {
+const Moon = ({ 
+  data, 
+  planetRadius, 
+  speedMultiplier, 
+  isPaused,
+  onSelect 
+}: { 
+  data: any, 
+  planetRadius: number, 
+  speedMultiplier: number, 
+  isPaused: boolean,
+  onSelect: (data: any) => void
+}) => {
     const moonRef = useRef<Mesh>(null);
     const angleRef = useRef(Math.random() * Math.PI * 2);
+    const [hovered, setHovered] = useState(false);
+    const { language } = useLanguage();
 
     useFrame((_, delta) => {
         if (moonRef.current && !isPaused) {
@@ -118,9 +140,24 @@ const Moon = ({ data, planetRadius, speedMultiplier, isPaused }: { data: any, pl
     });
 
     return (
-        <mesh ref={moonRef}>
+        <mesh 
+          ref={moonRef}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(data);
+          }}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+        >
             <sphereGeometry args={[data.radius, 16, 16]} />
             <meshStandardMaterial color={data.color} />
+            {hovered && (
+              <Html distanceFactor={15}>
+                <div className="bg-black/80 text-white px-2 py-1 rounded border border-hologram-blue text-xs font-orbitron whitespace-nowrap pointer-events-none select-none">
+                  {language === 'zh' ? data.nameZh : data.name}
+                </div>
+              </Html>
+            )}
         </mesh>
     );
 };
