@@ -20,10 +20,10 @@ export const Sun = () => {
         map={texture} 
         emissiveMap={texture}
         emissive="#ffffff"
-        emissiveIntensity={0.6}
+        emissiveIntensity={1}
         color="#ffffff"
       />
-      <pointLight intensity={2} distance={300} decay={1} color="#ffffff" />
+      <pointLight intensity={5} distance={1000} decay={0.5} color="#ffffff" />
     </mesh>
   );
 };

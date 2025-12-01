@@ -73,8 +73,8 @@ export const Planet: React.FC<PlanetProps> = ({ data, onSelect, onFocus }) => {
         <sphereGeometry args={[data.radius, 64, 64]} />
         <meshStandardMaterial 
           map={texture}
-          roughness={0.7}
-          metalness={0.2}
+          roughness={0.8}
+          metalness={0.1}
         />
         
         {/* Rings */}

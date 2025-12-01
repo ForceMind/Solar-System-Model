@@ -5,17 +5,26 @@
 <a name="english"></a>
 ## English
 
-A 3D interactive Solar System model with gesture controls and real-time NASA data integration.
+A 3D interactive Solar System model with gesture controls, real-time NASA data integration, and realistic planetary simulation.
 
 ### Features
 
 - **3D Solar System**: Interactive 3D visualization using Three.js and React Three Fiber.
+- **Realistic Simulation**: 
+  - Real planetary textures and rings.
+  - Accurate moon systems (e.g., Earth's Moon).
+  - Day/Night cycle with realistic lighting (terminator line).
+- **Time Control**: 
+  - Control simulation speed (0.1x to 5x).
+  - Pause/Resume and Reverse time.
+  - Visual time axis display.
 - **Gesture Control**: Use your webcam to control the camera (MediaPipe Hands).
-  - **Pinch (Index + Thumb)**: Zoom in/out.
-  - **Open Hand Move**: Pan/Rotate the view.
+  - **Open Hand**: Zoom In.
+  - **Fist**: Zoom Out.
+  - **Pinch (Index + Thumb)**: Rotate/Pan the view.
 - **NASA Data**: View real-time Near Earth Objects (Asteroids) passing by Earth.
 - **Sci-Fi HUD**: Modern holographic interface with bilingual support (English/Chinese).
-- **Time Axis**: Visual simulation time progression.
+- **Navigation**: Double-click planets to focus, use "Back to Solar System" to reset.
 
 ### Setup
 
@@ -41,8 +50,9 @@ A 3D interactive Solar System model with gesture controls and real-time NASA dat
 
 1.  Click the **GESTURE LINK** toggle in the bottom right corner to enable the camera.
 2.  Allow camera access.
-3.  **Rotate**: Keep your hand open and move it around.
-4.  **Zoom**: Pinch your thumb and index finger together and move your hand forward/backward (simulated by pinch distance change).
+3.  **Rotate**: Pinch your thumb and index finger together and move your hand.
+4.  **Zoom In**: Keep your hand open.
+5.  **Zoom Out**: Clench your hand into a fist.
 
 ### NASA API
 
@@ -53,17 +63,26 @@ The project uses the `DEMO_KEY` for NASA APIs. For production use, get a free AP
 <a name="chinese"></a>
 ## 中文 (Chinese)
 
-一个带有手势控制和实时 NASA 数据集成的 3D 交互式太阳系模型。
+一个带有手势控制、实时 NASA 数据集成和真实行星模拟的 3D 交互式太阳系模型。
 
 ### 功能特点
 
 - **3D 太阳系**：使用 Three.js 和 React Three Fiber 进行交互式 3D 可视化。
+- **真实模拟**：
+  - 真实的行星纹理贴图和光环。
+  - 精确的卫星系统（如月球）。
+  - 具有真实光照效果的昼夜交替（晨昏线）。
+- **时间控制**：
+  - 控制模拟速度（0.1倍 至 5倍）。
+  - 暂停/继续以及时间倒流。
+  - 可视化时间轴显示。
 - **手势控制**：使用网络摄像头控制视角（MediaPipe Hands）。
-  - **捏合（食指 + 拇指）**：放大/缩小。
-  - **张开手掌移动**：平移/旋转视角。
+  - **张开手掌**：放大视角。
+  - **握拳**：缩小视角。
+  - **捏合（食指 + 拇指）**：旋转/平移视角。
 - **NASA 数据**：查看实时经过地球的近地天体（小行星）。
 - **科幻 HUD**：现代全息界面，支持中英文切换。
-- **时间轴**：可视化的模拟时间进程。
+- **导航**：双击行星聚焦，使用“返回太阳系”按钮复位。
 
 ### 安装与运行
 
@@ -89,8 +108,9 @@ The project uses the `DEMO_KEY` for NASA APIs. For production use, get a free AP
 
 1.  点击右下角的 **GESTURE LINK**（手势连接）开关以启用摄像头。
 2.  允许浏览器访问摄像头。
-3.  **旋转**：保持手掌张开并移动。
-4.  **缩放**：捏合拇指和食指，并前后移动手部（通过捏合距离变化模拟）。
+3.  **旋转**：捏合拇指和食指并移动手部。
+4.  **放大**：保持手掌张开。
+5.  **缩小**：握紧拳头。
 
 ### NASA API
 

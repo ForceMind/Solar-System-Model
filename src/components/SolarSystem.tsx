@@ -1,11 +1,10 @@
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, Stars, Html } from '@react-three/drei';
+import { OrbitControls, Stars } from '@react-three/drei';
 import { Suspense, useRef, useEffect, useState } from 'react';
 import { Sun } from './Sun';
 import { Planet } from './Planet';
 import { planets, PlanetData } from '../data/planets';
 import { GestureController } from './GestureController';
-import { TimeDisplay } from './TimeDisplay';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -85,7 +84,7 @@ export const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetSelect }) => {
       <GestureController onGesture={handleGesture} />
       <Canvas camera={{ position: [0, 50, 100], fov: 45 }}>
         <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
+          <ambientLight intensity={0.3} />
           <Stars radius={300} depth={50} count={10000} factor={6} saturation={0} fade speed={1} />
           
           {/* Background Galaxy/Nebula effect using a large sphere with backside */}
@@ -95,22 +94,7 @@ export const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetSelect }) => {
           </mesh>
 
           <Sun />
-          <TimeDisplay />
           <CameraController focusedPosition={focusedPlanetPos} controlsRef={controlsRef} />
-          
-          {/* Back Button */}
-          {focusedPlanetPos && (
-              <Html position={[0, 0, 0]} fullscreen style={{ pointerEvents: 'none' }}>
-                  <div className="absolute top-20 left-1/2 transform -translate-x-1/2 pointer-events-auto">
-                      <button 
-                          onClick={handleResetFocus}
-                          className="bg-hologram-blue/20 hover:bg-hologram-blue/40 text-white border border-hologram-blue px-6 py-2 rounded-full backdrop-blur-md font-orbitron transition-all"
-                      >
-                          {language === 'zh' ? '返回太阳系' : 'Back to Solar System'}
-                      </button>
-                  </div>
-              </Html>
-          )}
           
           {planets.map((planet) => (
             <Planet 
@@ -129,6 +113,17 @@ export const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetSelect }) => {
           />
         </Suspense>
       </Canvas>
+
+      {focusedPlanetPos && (
+        <div className="absolute top-24 left-1/2 transform -translate-x-1/2 pointer-events-auto z-50">
+            <button 
+                onClick={handleResetFocus}
+                className="bg-hologram-blue/20 hover:bg-hologram-blue/40 text-white border border-hologram-blue px-6 py-2 rounded-full backdrop-blur-md font-orbitron transition-all"
+            >
+                {language === 'zh' ? '返回太阳系' : 'Back to Solar System'}
+            </button>
+        </div>
+      )}
     </>
   );
 };

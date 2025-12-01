@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SolarSystem } from './components/SolarSystem';
 import { HUD } from './components/HUD';
+import { TimeDisplay } from './components/TimeDisplay';
 import { PlanetData } from './data/planets';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { SimulationProvider } from './contexts/SimulationContext';
@@ -17,6 +18,7 @@ function App() {
             selectedPlanet={selectedPlanet} 
             onClose={() => setSelectedPlanet(null)} 
           />
+          <TimeDisplay />
         </div>
       </SimulationProvider>
     </LanguageProvider>
